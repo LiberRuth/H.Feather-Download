@@ -1,4 +1,6 @@
-﻿using Terminal.Gui;
+﻿using System;
+using System.Diagnostics;
+using Terminal.Gui;
 
 namespace HSharpTui.hitomi
 {
@@ -83,6 +85,25 @@ namespace HSharpTui.hitomi
             
             button.Clicked += async () => {
                 string inputStr = $"{textField.Text}";
+                List<int> numbers = inputStr.Split(',')
+                .Select(str => str.Trim())
+                .Where(str => int.TryParse(str, out _))
+                .Select(str => int.Parse(str))
+                .ToList();
+
+                if (numbers.Count == 0)
+                {
+                    MessageBox.Query("실패", $"입력된 값이 숫자가 아닌 문자열입니다.\n숫자를 입력하세요.", "OK");
+                    return;
+                }
+
+                foreach (int itemList in numbers)
+                {
+                    //Debug.WriteLine(itemList);
+                    await HitomiWebp.HitomiDownload(itemList);
+                }
+
+                /*
                 bool isNumber = int.TryParse(inputStr, out _);
                 if (isNumber == false) {
                     MessageBox.Query("실패", $" {textField.Text} 이것은 문자열입니다.\n 숫자를 입력하세요.", "OK");
@@ -91,6 +112,7 @@ namespace HSharpTui.hitomi
                 // editor.Text += $"{textField.Text}\n";
                 int numberText = Convert.ToInt32(textField.Text);
                 await HitomiWebp.HitomiDownload(numberText);
+                */
             };
 
             Application.Run();
