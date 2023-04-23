@@ -35,7 +35,7 @@ namespace HSharpTui.hitomi
                 X = 2,
                 Y = 2,
                 Width = Dim.Fill(),
-                Height = Dim.Fill() - 10, 
+                Height = Dim.Fill() - 7, 
                 ReadOnly = true,
             };
             win.Add(editor);
@@ -69,20 +69,20 @@ namespace HSharpTui.hitomi
             };
             win.Add(textField);
 
-            var button = new Button(" OK ")
-            {
-                X = Pos.Right(textField) + 1,
-                Y = Pos.Top(textField),
-            };
-            win.Add(button);
-
             var gap3 = new Label("")
             {
                 X = 0,
-                Y = Pos.Bottom(textField) + 1,
+                Y = Pos.Bottom(textField),
             };
             win.Add(gap3);
-
+     
+            var button = new Button(" OK ")
+            {
+                X = Pos.Center(),
+                Y = Pos.Bottom(gap3) + 1,
+            };
+            win.Add(button);
+            
             button.Clicked += async () => {
                 string inputStr = $"{textField.Text}";
                 List<int> numbers = inputStr.Split(',')
