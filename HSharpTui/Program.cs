@@ -82,7 +82,12 @@ namespace HSharpTui.hitomi
             win.Add(button);
             
             button.Clicked += async () => {
-                MessageBox.Query("Title", $"Hello, {textField.Text}!", "OK");
+                string inputStr = $"{textField.Text}";
+                bool isNumber = int.TryParse(inputStr, out _);
+                if (isNumber == false) {
+                    MessageBox.Query("실패", $" {textField.Text} 이것은 문자열입니다.\n 숫자를 입력하세요.", "OK");
+                    return;
+                }  
                 // editor.Text += $"{textField.Text}\n";
                 int numberText = Convert.ToInt32(textField.Text);
                 await HitomiWebp.HitomiDownload(numberText);
